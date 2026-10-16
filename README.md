@@ -22,4 +22,4 @@ A simple, robust, and lightweight Command Line Interface (CLI) application built
   python --version
 
 ---
-*This project is part of the [Task Tracker challenge on roadmap.sh](https://github.com/JAKES010/roadmap.sh/tree/main/projects/task_tracker).*
+*This project is part of the [Task Tracker challenge on roadmap.sh](https://roadmap.sh/projects/task-tracker).*
