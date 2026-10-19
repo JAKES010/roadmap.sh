@@ -13,6 +13,18 @@ valid_commands = ["add", "list", "update", "delete", "mark-done", "mark-in-progr
 if t_command not in valid_commands:
     sys.exit(f"Error: '{t_command}' is not a valid command. Choose from: {', '.join(valid_commands)}")
 
+max_argument_counts = {
+    "add": 3,
+    "list": 3,
+    "update": 4,
+    "delete": 3,
+    "mark-done": 3,
+    "mark-in-progress": 3,
+    "mark-todo": 3,
+}
+if len(sys.argv) > max_argument_counts[t_command]:
+    sys.exit(f"Error: Too many arguments for '{t_command}'.")
+
 FILENAME = Path(__file__).resolve().with_name("task_file.json")
 VALID_STATUSES = {"todo", "in-progress", "done"}
 
