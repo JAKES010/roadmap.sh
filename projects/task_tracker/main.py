@@ -1,8 +1,8 @@
 import sys
-import os
 import json
 from datetime import datetime
 from enum import Enum
+from pathlib import Path
 
 if len(sys.argv) < 2:
     sys.exit("Usage: python script.py <command> <task_input>") 
@@ -14,11 +14,11 @@ valid_commands = ["add", "list", "update", "delete", "mark-done", "mark-in-progr
 if t_command not in valid_commands:
     sys.exit(f"Error: '{t_command}' is not a valid command. Choose from: {', '.join(valid_commands)}")
 
-FILENAME = "task_file.json"
+FILENAME = Path(__file__).resolve().with_name("task_file.json")
 
 # --- HELPER FUNCTIONS ---
 def load_tasks():
-    if not os.path.exists(FILENAME):
+    if not FILENAME.exists():
         return []
     with open(FILENAME, "r") as file:
         try:
