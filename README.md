@@ -1,25 +1,52 @@
-# Task Tracker CLI 🚀
+# Task Tracker CLI
 
-A simple, robust, and lightweight Command Line Interface (CLI) application built with Python to track and manage your daily tasks. This project runs entirely on native libraries with zero external dependencies and utilizes local JSON persistence for state management.
+A lightweight command-line application for tracking tasks. It uses only the Python standard library and stores tasks in a local JSON file.
 
----
+## Requirements
 
-## Features
+- Python 3
 
-- **Add Tasks**: Create new tasks with an automatically generated unique ID.
-- **List Tasks**: View all tasks or filter them dynamically by status (`todo`, `in-progress`, `done`).
-- **Update Tasks**: Modify the description of any existing task.
-- **Delete Tasks**: Remove tasks by their unique ID[cite: 2].
-- **Status Management**: Quickly transition task statuses using dedicated commands (`mark-todo`, `mark-in-progress`, `mark-done`)[cite: 2].
-- **Defensive Error Handling**: Gracefully handles missing files, invalid argument lengths, corrupted JSON data, and type mismatches[cite: 2].
+## Usage
 
----
+Run commands from the task tracker directory:
 
-## Prerequisites
+```bash
+cd projects/task_tracker
+python3 main.py <command> [arguments]
+```
 
-- Ensure you have **Python 3.x** installed on your machine. You can verify your installation by running:
-  ```bash
-  python --version
+On systems where Python 3 is invoked as `python`, replace `python3` with `python`.
 
----
-*This project is part of the [Task Tracker challenge on roadmap.sh](https://roadmap.sh/projects/task-tracker).*
+### Add a task
+
+```bash
+python3 main.py add "Buy groceries"
+```
+
+### List tasks
+
+```bash
+python3 main.py list
+python3 main.py list todo
+python3 main.py list in-progress
+python3 main.py list done
+```
+
+### Update or delete a task
+
+```bash
+python3 main.py update 1 "Buy groceries and cook dinner"
+python3 main.py delete 1
+```
+
+### Change a task's status
+
+```bash
+python3 main.py mark-in-progress 1
+python3 main.py mark-done 1
+python3 main.py mark-todo 1
+```
+
+Task data is stored in `projects/task_tracker/task_file.json`, alongside the script. If that file contains invalid JSON, the application reports the parse location and leaves the file unchanged.
+
+This project is part of the [Task Tracker challenge on roadmap.sh](https://roadmap.sh/projects/task-tracker).
