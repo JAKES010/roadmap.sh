@@ -1,7 +1,6 @@
 import sys
 import json
 from datetime import datetime
-from enum import Enum
 from pathlib import Path
 
 if len(sys.argv) < 2:
@@ -15,6 +14,7 @@ if t_command not in valid_commands:
     sys.exit(f"Error: '{t_command}' is not a valid command. Choose from: {', '.join(valid_commands)}")
 
 FILENAME = Path(__file__).resolve().with_name("task_file.json")
+VALID_STATUSES = {"todo", "in-progress", "done"}
 
 # --- HELPER FUNCTIONS ---
 def load_tasks():
@@ -22,12 +22,33 @@ def load_tasks():
         return []
     with open(FILENAME, "r") as file:
         try:
-            return json.load(file)
+            tasks = json.load(file)
         except json.JSONDecodeError as error:
             sys.exit(
                 f"Error: Task data file contains invalid JSON at line "
                 f"{error.lineno}, column {error.colno}; file was left unchanged."
             )
+
+    if not isinstance(tasks, list):
+        sys.exit("Error: Task data file must contain a JSON list; file was left unchanged.")
+
+    task_ids = set()
+    for index, task in enumerate(tasks, start=1):
+        if not isinstance(task, dict):
+            sys.exit(f"Error: Task {index} must be a JSON object; file was left unchanged.")
+        if type(task.get("id")) is not int or task["id"] < 1:
+            sys.exit(f"Error: Task {index} must have a positive integer ID; file was left unchanged.")
+        if task["id"] in task_ids:
+            sys.exit(f"Error: Task {index} has a duplicate ID; file was left unchanged.")
+        task_ids.add(task["id"])
+        if not isinstance(task.get("description"), str):
+            sys.exit(f"Error: Task {index} must have a string description; file was left unchanged.")
+        if not isinstance(task.get("status"), str) or task["status"] not in VALID_STATUSES:
+            sys.exit(f"Error: Task {index} has an invalid status; file was left unchanged.")
+        if not isinstance(task.get("createdAt"), str) or not isinstance(task.get("updatedAt"), str):
+            sys.exit(f"Error: Task {index} must have string createdAt and updatedAt values; file was left unchanged.")
+
+    return tasks
 
 def save_tasks(tasks):
     with open(FILENAME, "w") as file:
@@ -62,15 +83,7 @@ elif t_command == "list":
     
     if len(sys.argv) > 2:
         filter_status = sys.argv[2].lower()
-
-        class TaskStatus(Enum):
-            TODO = "todo"
-            IN_PROGRESS = "in-progress"
-            DONE = "done"
-            
-        try:
-            TaskStatus(filter_status)
-        except ValueError:
+        if filter_status not in VALID_STATUSES:
             print(f"Error: '{filter_status}' is not a valid task status.")
             sys.exit("Please choose from: todo, in-progress, done")
 
