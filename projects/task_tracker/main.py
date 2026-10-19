@@ -82,7 +82,8 @@ if t_command == "add":
 elif t_command == "list":
     tasks = load_tasks()
     if not tasks:
-        sys.exit("tasks not found")
+        print("No tasks found.")
+        sys.exit(0)
     
     if len(sys.argv) > 2:
         filter_status = sys.argv[2].lower()
@@ -97,7 +98,7 @@ elif t_command == "list":
                 found_status = True
 
         if not found_status:
-            sys.exit(f"No tasks found with status '{filter_status}'.")
+            print(f"No tasks found with status '{filter_status}'.")
     else:
         for task in tasks:
             print(f"[{task['status'].upper()}] \nID: {task['id']} \nTasks: {task['description']} \nCreatedAt: {task['createdAt']} \nUpdatedAt: {task['updatedAt']}")
