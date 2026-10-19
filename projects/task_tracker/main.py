@@ -3,13 +3,33 @@ import json
 from datetime import datetime
 from pathlib import Path
 
+USAGE = """Usage: python3 main.py <command> [arguments]
+
+Commands:
+  add <description>           Add a task
+  list [status]               List tasks, optionally filtered by status
+  update <id> <description>   Update a task description
+  delete <id>                 Delete a task
+  mark-todo <id>              Mark a task as todo
+  mark-in-progress <id>       Mark a task as in-progress
+  mark-done <id>              Mark a task as done
+
+Statuses: todo, in-progress, done
+Use quotes around descriptions containing spaces."""
+
 if len(sys.argv) < 2:
-    sys.exit("Usage: python script.py <command> <task_input>") 
+    sys.exit(USAGE)
 
 command = sys.argv[1] 
 t_command = command.lower()
 
 valid_commands = ["add", "list", "update", "delete", "mark-done", "mark-in-progress", "mark-todo"]
+if t_command in ("-h", "--help", "help"):
+    if len(sys.argv) > 2:
+        sys.exit("Error: Help does not accept additional arguments.")
+    print(USAGE)
+    sys.exit(0)
+
 if t_command not in valid_commands:
     sys.exit(f"Error: '{t_command}' is not a valid command. Choose from: {', '.join(valid_commands)}")
 
