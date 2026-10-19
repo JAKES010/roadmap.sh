@@ -16,6 +16,7 @@ python3 main.py <command> [arguments]
 ```
 
 On systems where Python 3 is invoked as `python`, replace `python3` with `python`.
+Run `python3 main.py --help` to display the available commands and arguments.
 
 ### Add a task
 
