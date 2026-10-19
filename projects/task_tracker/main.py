@@ -23,8 +23,11 @@ def load_tasks():
     with open(FILENAME, "r") as file:
         try:
             return json.load(file)
-        except json.JSONDecodeError:
-            return []
+        except json.JSONDecodeError as error:
+            sys.exit(
+                f"Error: Task data file contains invalid JSON at line "
+                f"{error.lineno}, column {error.colno}; file was left unchanged."
+            )
 
 def save_tasks(tasks):
     with open(FILENAME, "w") as file:
