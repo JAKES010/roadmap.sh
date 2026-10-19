@@ -18,6 +18,14 @@ python3 main.py <command> [arguments]
 On systems where Python 3 is invoked as `python`, replace `python3` with `python`.
 Run `python3 main.py --help` to display the available commands and arguments.
 
+## Run tests
+
+From the repository root, run the standard-library test suite:
+
+```bash
+python3 -m unittest discover -s tests
+```
+
 ### Add a task
 
 ```bash
