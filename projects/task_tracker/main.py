@@ -61,6 +61,9 @@ if t_command == "add":
         sys.exit("Error: Please provide a task description. Example: add 'My task'")
         
     task_info = sys.argv[2]
+    if not task_info.strip():
+        sys.exit("Error: Task description cannot be empty.")
+
     tasks = load_tasks()
     next_id = max((task["id"] for task in tasks), default=0) + 1
 
@@ -109,6 +112,9 @@ elif t_command == "update":
         sys.exit("Error: Task ID must be an integer.")
 
     new_description = sys.argv[3]
+    if not new_description.strip():
+        sys.exit("Error: Task description cannot be empty.")
+
     tasks = load_tasks()
 
     found_description = False
